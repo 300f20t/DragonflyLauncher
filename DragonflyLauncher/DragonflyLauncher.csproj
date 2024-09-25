@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="assets\Background.png" />
+    <None Remove="assets\Dragonfly.png" />
+    <None Remove="assets\Floader.png" />
+    <None Remove="assets\GitHubLogo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\Background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\Dragonfly.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\Floader.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\GitHubLogo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CmlLib.Core" Version="4.0.2" />
+    <PackageReference Include="CmlLib.Core.Auth.Microsoft" Version="3.2.0" />
+    <PackageReference Include="CmlLib.Core.Installer.Forge" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
