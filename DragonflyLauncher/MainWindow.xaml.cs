@@ -4,6 +4,7 @@ using CmlLib.Core;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Navigation;
+using System.Windows.Interop;
 
 namespace DragonflyLauncher
 {
@@ -61,7 +62,7 @@ namespace DragonflyLauncher
 
         private void ModsButtonClick(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("WIP");
         }
 
         private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
@@ -89,7 +90,7 @@ namespace DragonflyLauncher
 
         private void OpenSettings(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("WIP");
         }
     }
 }
