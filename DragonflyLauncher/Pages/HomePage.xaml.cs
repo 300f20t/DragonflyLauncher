@@ -27,6 +27,7 @@ namespace DragonflyLauncher.Pages
     {
         string mineDir = @"%AppData%\.minecraft";
         string login = "Player";
+        string selectedVersion = "1.20.1";
 
         public HomePage()
         {
@@ -64,8 +65,8 @@ namespace DragonflyLauncher.Pages
             }
 
             // install and launch the game
-            await launcher.InstallAsync("1.20.6");
-            var process = await launcher.BuildProcessAsync("1.20.6", new MLaunchOption
+            await launcher.InstallAsync(selectedVersion);
+            var process = await launcher.BuildProcessAsync(selectedVersion, new MLaunchOption
             {
                 Session = MSession.CreateOfflineSession(login),
                 MaximumRamMb = 4096
