@@ -9,23 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="assets\Background.png" />
-    <None Remove="assets\Dragonfly.png" />
-    <None Remove="assets\Floader.png" />
-    <None Remove="assets\GitHubLogo.png" />
+    <None Remove="Assets\Background.png" />
+    <None Remove="Assets\Dragonfly.png" />
+    <None Remove="Assets\Floader.png" />
+    <None Remove="Assets\GitHubLogo.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="assets\Background.png">
+    <Content Include="Assets\Background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\Dragonfly.png">
+    <Content Include="Assets\Dragonfly.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\Floader.png">
+    <Content Include="Assets\Floader.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\GitHubLogo.png">
+    <Content Include="Assets\GitHubLogo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
