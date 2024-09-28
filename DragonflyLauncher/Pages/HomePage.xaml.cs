@@ -27,7 +27,7 @@ namespace DragonflyLauncher.Pages
     {
         string mineDir = @"%AppData%\.minecraft";
         string login = "Player";
-        string selectedVersion = "1.20.1";
+        string selectedVersion;
 
         public HomePage()
         {
@@ -35,23 +35,33 @@ namespace DragonflyLauncher.Pages
             GetVersions();
         }
 
+
         private async void GetVersions()
         {
             var launcher = new MinecraftLauncher();
-            var versions = await launcher.GetAllVersionsAsync();
-            foreach (var version in versions)
+            try
             {
-                Console.WriteLine("Name: " + version.Name);
-                Console.WriteLine("Type: " + version.Type);
-                Console.WriteLine("ReleaseTime: " + version.ReleaseTime);
+                var versions = await launcher.GetAllVersionsAsync();
+                foreach (var version in versions)
+                {
+                    Console.WriteLine("Name: " + version.Name);
+                    Console.WriteLine("Type: " + version.Type);
+                    Console.WriteLine("ReleaseTime: " + version.ReleaseTime);
 
-                versionsComboBox.Items.Add(version.Name);
+                    versionsComboBox.Items.Add(version.Name);
+                }
             }
+            catch { MessageBox.Show("No internet connection!"); }
         }
 
         private async void PlayClick(object sender, RoutedEventArgs e)
         {
+            MainWindow.GetWindow(this).Hide();
+
+
             if (nickTextBox.Text != "") login = nickTextBox.Text;
+
+            selectedVersion = versionsComboBox.Text;
 
             System.Net.ServicePointManager.DefaultConnectionLimit = 256;
 
@@ -87,6 +97,16 @@ namespace DragonflyLauncher.Pages
                 MaximumRamMb = 4096
             });
             process.Start();
+
+            while (true)
+            {
+                Thread.Sleep(10);
+                if (process.HasExited)
+                {
+                    MainWindow.GetWindow(this).Show();
+                    break;
+                }
+            }    
         }
 
         private void ModsButtonClick(object sender, RoutedEventArgs e)

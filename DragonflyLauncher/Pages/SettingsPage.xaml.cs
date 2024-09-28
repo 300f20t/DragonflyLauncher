@@ -24,5 +24,14 @@ namespace DragonflyLauncher.Pages
         {
             InitializeComponent();
         }
+
+        private void SaveButton(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BackButton(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -5,10 +5,65 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DragonflyLauncher.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="650" d:DesignWidth="1000"
       Title="SettingsPage">
 
+    <Page.Background>
+        <ImageBrush ImageSource="/assets/Background.png"/>
+    </Page.Background>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border Opacity="0.7" Background="Black" Margin="10,45,79,10" Grid.Row="2" CornerRadius="15">
+            <Grid Margin="0,0,156,0">
+                <Button Content="Back" Background="#FFBAE600" Click="BackButton" Margin="10,78,-148,10" FontSize="22" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Save" Background="#FFBAE600" Click="SaveButton" Margin="10,10,-148,83" FontSize="22" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+        </Border>
+        <Border Opacity="0.7" Background="Black" Margin="10,10,79,177" CornerRadius="15" Grid.RowSpan="3">
+            <Grid Margin="0,0,156,0">
+                <Button Content="Back" Background="#FFBAE600" Click="BackButton" Margin="10,10,-148,393" FontSize="22" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Back" Background="#FFBAE600" Click="BackButton" Margin="10,75,-148,328" FontSize="22" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Back" Background="#FFBAE600" Click="BackButton" Margin="10,140,-148,263" FontSize="22" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+        </Border>
     </Grid>
 </Page>
