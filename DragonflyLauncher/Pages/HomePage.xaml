@@ -105,7 +105,7 @@
         <TextBox x:Name="nickTextBox"  HorizontalAlignment="Left" Height="23" Margin="32,51,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" FontSize="14" Background="#FFF3F3F3" MaxLength="16"/>
         <Border Opacity="0.7" Background="Black" Margin="259,95,167,10" Grid.Row="2" CornerRadius="15" Grid.ColumnSpan="2">
         </Border>
-        <ComboBox HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="183" x:Name="versionsComboBox" Opacity="0.9" BorderBrush="Red" Foreground="Red" Grid.ColumnSpan="2" Margin="285,148,0,0" Grid.Row="2"/>
+        <ComboBox HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="183" x:Name="versionsComboBox" Opacity="0.9" Grid.ColumnSpan="2" Margin="285,148,0,0" Grid.Row="2"/>
         <TextBlock HorizontalAlignment="Left" Margin="285,109,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Foreground="#FFE4E4E4" Text="Select version" Grid.ColumnSpan="2"/>
     </Grid>
 </Page>

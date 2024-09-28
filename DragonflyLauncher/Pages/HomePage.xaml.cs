@@ -32,6 +32,21 @@ namespace DragonflyLauncher.Pages
         public HomePage()
         {
             InitializeComponent();
+            GetVersions();
+        }
+
+        private async void GetVersions()
+        {
+            var launcher = new MinecraftLauncher();
+            var versions = await launcher.GetAllVersionsAsync();
+            foreach (var version in versions)
+            {
+                Console.WriteLine("Name: " + version.Name);
+                Console.WriteLine("Type: " + version.Type);
+                Console.WriteLine("ReleaseTime: " + version.ReleaseTime);
+
+                versionsComboBox.Items.Add(version.Name);
+            }
         }
 
         private async void PlayClick(object sender, RoutedEventArgs e)
