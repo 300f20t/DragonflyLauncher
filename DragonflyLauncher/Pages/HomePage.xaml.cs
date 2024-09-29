@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CmlLib.Core.Version;
 
 namespace DragonflyLauncher.Pages
 {
@@ -25,9 +26,9 @@ namespace DragonflyLauncher.Pages
     /// </summary>
     public partial class HomePage : Page
     {
-        string mineDir = @"%AppData%\.minecraft";
-        string login = "Player";
-        string selectedVersion;
+        string _minecraftDirectory = @"%AppData%\.minecraft";
+        string _playerNickname = "Player";
+        string _selectedVersion = "1.20.1";
 
         public HomePage()
         {
@@ -38,6 +39,7 @@ namespace DragonflyLauncher.Pages
 
         private async void GetVersions()
         {
+
             var launcher = new MinecraftLauncher();
             try
             {
@@ -54,14 +56,18 @@ namespace DragonflyLauncher.Pages
             catch { MessageBox.Show("No internet connection!"); }
         }
 
-        private async void PlayClick(object sender, RoutedEventArgs e)
+        private void PlayClick(object sender, RoutedEventArgs e)
         {
-            MainWindow.GetWindow(this).Hide();
+                RunMinecraft();
+        }
 
+        private async void RunMinecraft()
+        {
+            MinecraftLoadingInfo.Visibility = Visibility.Visible;
 
-            if (nickTextBox.Text != "") login = nickTextBox.Text;
+            if (nickTextBox.Text != "") _playerNickname = nickTextBox.Text;
 
-            selectedVersion = versionsComboBox.Text;
+            if (versionsComboBox.Text != "") _selectedVersion = versionsComboBox.Text;
 
             System.Net.ServicePointManager.DefaultConnectionLimit = 256;
 
@@ -77,9 +83,11 @@ namespace DragonflyLauncher.Pages
                 Console.WriteLine($"Total: {args.TotalTasks}");
                 Console.WriteLine($"Progressed: {args.ProgressedTasks}");
             };
+
             launcher.ByteProgressChanged += (sender, args) =>
             {
                 Console.WriteLine($"{args.ProgressedBytes} bytes / {args.TotalBytes} bytes");
+                MinecraftLoadingProgress.Value = args.ProgressedBytes;
             };
 
             // get all versions
@@ -90,13 +98,17 @@ namespace DragonflyLauncher.Pages
             }
 
             // install and launch the game
-            await launcher.InstallAsync(selectedVersion);
-            var process = await launcher.BuildProcessAsync(selectedVersion, new MLaunchOption
+            await launcher.InstallAsync(_selectedVersion);
+            var process = await launcher.BuildProcessAsync(_selectedVersion, new MLaunchOption
             {
-                Session = MSession.CreateOfflineSession(login),
-                MaximumRamMb = 4096
+                Session = MSession.CreateOfflineSession(_playerNickname),
+                MaximumRamMb = 8192
             });
             process.Start();
+
+            MinecraftLoadingInfo.Visibility = Visibility.Hidden;
+
+            MainWindow.GetWindow(this).Hide();
 
             while (true)
             {
@@ -106,7 +118,7 @@ namespace DragonflyLauncher.Pages
                     MainWindow.GetWindow(this).Show();
                     break;
                 }
-            }    
+            }
         }
 
         private void ModsButtonClick(object sender, RoutedEventArgs e)
@@ -127,7 +139,7 @@ namespace DragonflyLauncher.Pages
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            string absoluteMineDir = Environment.ExpandEnvironmentVariables(mineDir);
+            string absoluteMineDir = Environment.ExpandEnvironmentVariables(_minecraftDirectory);
             Process.Start("explorer.exe", @$"{absoluteMineDir}");
         }
 
