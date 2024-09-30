@@ -38,4 +38,10 @@
     <PackageReference Include="CmlLib.Core.Installer.Forge" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="LauncherConfigs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

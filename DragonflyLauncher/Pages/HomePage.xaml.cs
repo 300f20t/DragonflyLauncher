@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.IO;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -18,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CmlLib.Core.Version;
+using System.Text.Json;
 
 namespace DragonflyLauncher.Pages
 {
@@ -26,9 +28,13 @@ namespace DragonflyLauncher.Pages
     /// </summary>
     public partial class HomePage : Page
     {
+        public string Memory { get; set; }
+        public string PlayerNickname { get; set; }
+
         string _minecraftDirectory = @"%AppData%\.minecraft";
         string _playerNickname = "Player";
         string _selectedVersion = "1.20.1";
+        string _launcherConfigsString;
 
         public HomePage()
         {
@@ -63,10 +69,15 @@ namespace DragonflyLauncher.Pages
 
         private async void RunMinecraft()
         {
+            _launcherConfigsString = File.ReadAllText(@"LauncherConfigs.json");
+
+            HomePage? launcherConfigs = JsonSerializer.Deserialize<HomePage>(_launcherConfigsString);
+
+            MessageBox.Show(launcherConfigs.Memory.ToString());
+
             MinecraftLoadingInfo.Visibility = Visibility.Visible;
 
             if (nickTextBox.Text != "") _playerNickname = nickTextBox.Text;
-
             if (versionsComboBox.Text != "") _selectedVersion = versionsComboBox.Text;
 
             System.Net.ServicePointManager.DefaultConnectionLimit = 256;
@@ -102,7 +113,7 @@ namespace DragonflyLauncher.Pages
             var process = await launcher.BuildProcessAsync(_selectedVersion, new MLaunchOption
             {
                 Session = MSession.CreateOfflineSession(_playerNickname),
-                MaximumRamMb = 8192
+                MaximumRamMb = Int32.Parse(launcherConfigs.Memory),
             });
             process.Start();
 

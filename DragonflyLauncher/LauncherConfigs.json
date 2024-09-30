@@ -1,5 +1,5 @@
 {
-	"memory": "4096",
-	"minecraftDirectory": "%AppData%\\.minecraft",
-	"playerNickname": "Player"
+	"Memory": "4096",
+	"MinecraftDirectory": "%AppData%\\.minecraft",
+	"PlayerNickname": "Player"
 }
