@@ -31,7 +31,7 @@ namespace DragonflyLauncher.Pages
         }
         private void BackButton(object sender, RoutedEventArgs e)
         {
-
+            NavigationService.Navigate(new HomePage());
         }
     }
 }

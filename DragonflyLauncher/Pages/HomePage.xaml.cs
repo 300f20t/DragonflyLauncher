@@ -32,7 +32,6 @@ namespace DragonflyLauncher.Pages
         public string PlayerNickname { get; set; }
 
         string _minecraftDirectory = @"%AppData%\.minecraft";
-        string _playerNickname = "Player";
         string _selectedVersion = "1.20.1";
         string _launcherConfigsString;
 
@@ -77,7 +76,6 @@ namespace DragonflyLauncher.Pages
 
             MinecraftLoadingInfo.Visibility = Visibility.Visible;
 
-            if (nickTextBox.Text != "") _playerNickname = nickTextBox.Text;
             if (versionsComboBox.Text != "") _selectedVersion = versionsComboBox.Text;
 
             System.Net.ServicePointManager.DefaultConnectionLimit = 256;
@@ -112,7 +110,7 @@ namespace DragonflyLauncher.Pages
             await launcher.InstallAsync(_selectedVersion);
             var process = await launcher.BuildProcessAsync(_selectedVersion, new MLaunchOption
             {
-                Session = MSession.CreateOfflineSession(_playerNickname),
+                Session = MSession.CreateOfflineSession(launcherConfigs.PlayerNickname),
                 MaximumRamMb = Int32.Parse(launcherConfigs.Memory),
             });
             process.Start();
@@ -162,7 +160,7 @@ namespace DragonflyLauncher.Pages
 
         private void OpenSettings(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("WIP");
+            NavigationService.Navigate(new SettingsPage());
         }
     }
 }

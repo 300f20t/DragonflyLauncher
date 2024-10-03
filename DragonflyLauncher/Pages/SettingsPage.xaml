@@ -41,29 +41,31 @@
             </Grid>
         </Border>
         <Border Opacity="0.7" Background="Black" Margin="10,10,79,177" CornerRadius="15" Grid.RowSpan="3">
-            <Grid Margin="0,0,156,0">
-                <Button Content="Back" Background="#FFBAE600" Click="BackButton" Margin="10,10,-148,393" FontSize="22" FontWeight="Bold">
+            <StackPanel Orientation="Vertical" Margin="10">
+                <Button Content="Startup" Background="#FFBAE600" Click="BackButton" FontSize="22" FontWeight="Bold" Height="50" Margin="0, 0, 0, 10">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Content="Back" Background="#FFBAE600" Click="BackButton" Margin="10,75,-148,328" FontSize="22" FontWeight="Bold">
+                <Button Content="Launcher" Background="#FFBAE600" Click="BackButton"  FontSize="22" FontWeight="Bold" Height="50" Margin="0, 0, 0, 10">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Content="Back" Background="#FFBAE600" Click="BackButton" Margin="10,140,-148,263" FontSize="22" FontWeight="Bold">
+                <Button Content="Mod Builder" Background="#FFBAE600" Click="BackButton" FontSize="22" FontWeight="Bold" Height="50" Margin="0, 0, 0, 10">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
                         </Style>
                     </Button.Resources>
                 </Button>
-            </Grid>
+            </StackPanel>
+        </Border>
+        <Border Opacity="0.7" Background="Black" Margin="259,10,10,10" CornerRadius="15" Grid.RowSpan="3" Grid.ColumnSpan="3">
         </Border>
     </Grid>
 </Page>
