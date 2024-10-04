@@ -1,5 +1,10 @@
+
 {
-	"Memory": "4096",
-	"MinecraftDirectory": "%AppData%\\.minecraft",
-	"PlayerNickname": "Player"
+  "buttonColor": "#FFBAE600",
+  "borderColor": "#FF000000",
+  "backgroundPath": "",
+
+  "Memory": "4096",
+  "GameDirectory": "%AppData%\\.minecraft",
+  "PlayerNickname": "Player"
 }
