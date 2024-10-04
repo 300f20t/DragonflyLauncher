@@ -12,9 +12,12 @@
         <ImageBrush ImageSource="/assets/Background.png"/>
     </Page.Background>
     <DockPanel>
+        
         <Border Opacity="0.7" Background="Black" CornerRadius="15" DockPanel.Dock="Right" Margin="10">
 
         </Border>
+        
+        
         <Border Opacity="0.7" Background="Black" Grid.Row="2" CornerRadius="15" DockPanel.Dock="Bottom" Margin="10" Width="250" HorizontalAlignment="Left">
                 <StackPanel Orientation="Vertical" Margin="10,10,10,0">
                     <Button Content="Back" Background="#FFBAE600" Click="BackButton" FontSize="22" FontWeight="Bold" Height="60" Margin="0, 0, 0, 10">
@@ -33,6 +36,8 @@
                     </Button>
                 </StackPanel>
             </Border>
+        
+        
         <Border Opacity="0.7" Background="Black" CornerRadius="15" DockPanel.Dock="Top" Margin="10" Width="250" HorizontalAlignment="Left">
             <StackPanel Orientation="Vertical" Margin="10,10,10,0">
                 <Button Content="Startup" Background="#FFBAE600" Click="BackButton" FontSize="22" FontWeight="Bold" Height="60" Margin="0, 0, 0, 10">
@@ -58,5 +63,6 @@
                 </Button>
             </StackPanel>
         </Border>
+        
     </DockPanel>
 </Page>

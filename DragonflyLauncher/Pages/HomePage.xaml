@@ -12,101 +12,118 @@
         <ImageBrush ImageSource="/assets/Background.png"/>
     </Page.Background>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Border Opacity="0.7" Background="Black" Grid.Column="1" Margin="172,95,10,10" Grid.Row="2" CornerRadius="15" Grid.ColumnSpan="2">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Border Opacity="0.7" Background="#FF8B9DAF" Grid.Column="3" Margin="10,0,10,0" CornerRadius="5" Height="48" VerticalAlignment="Center" Width="48">
-                    <Button BorderThickness="0" Opacity="0.9" Click="Button_Click_1" Margin="5,5,5,5" >
-                        <Button.Background>
-                            <ImageBrush ImageSource="/assets/GitHubLogo.png"/>
-                        </Button.Background>
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border Background="{TemplateBinding Background}"/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
+    <DockPanel >
+        
+        <!--ProgressBar Border-->
+        <Border x:Name="MinecraftLoadingInfo" Background="Black" CornerRadius="15" Opacity="0.7" DockPanel.Dock="Top" Margin="10">
+            <StackPanel>
+                <ProgressBar x:Name="MinecraftLoadingProgress" Height="30" Margin="20" Grid.Row="2" Background="#FFC5C5C5">
+                    <ProgressBar.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </ProgressBar.Resources>
+                </ProgressBar>
+                <TextBlock Text="Minecraft loading" Foreground="White" Margin="20, 10" FontSize="18"/>
+            </StackPanel>
+        </Border>
+
+
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+
+            <!--Mods and Settings Button Border-->
+            <Border Opacity="0.7" Background="Black" CornerRadius="15" Margin="10" Width="250">
+                <StackPanel Margin="10">
+                    <Button Content="Settings" Background="#FFBAE600" Click="OpenSettings" Margin="0, 0, 0, 10" FontSize="22" FontWeight="Bold" Height="60">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
                             </Style>
-                        </Button.Style>
+                        </Button.Resources>
                     </Button>
-                </Border>
-                <Button Content="Play" Background="#FFBAE600" Click="PlayClick" Margin="10,18,10,16" Grid.ColumnSpan="3" FontSize="24" FontWeight="Bold" >
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Border Opacity="0.7" Background="#FF8B9DAF" Grid.Column="4" Margin="10,0,24,0" CornerRadius="5" Height="48" VerticalAlignment="Center" Width="48">
-                    <Button BorderThickness="0" Opacity="0.9" Click="Button_Click_2" Margin="5,5,5,5" >
-                        <Button.Background>
-                            <ImageBrush ImageSource="/assets/Floader.png"/>
-                        </Button.Background>
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border Background="{TemplateBinding Background}"/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
+                    <Button Content="Mods" Background="#FFBAE600" Click="ModsButtonClick" FontSize="22" FontWeight="Bold" Height="60">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
                             </Style>
-                        </Button.Style>
+                        </Button.Resources>
                     </Button>
-                </Border>
-            </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border Opacity="0.7" Background="Black" Grid.Row="2" CornerRadius="15" Margin="10">
+                <StackPanel>
+                    <TextBlock x:Name="selectVersionTextBlock" FontSize="18" Margin="10" Foreground="White" Text="Select version" />
+                    <ComboBox  x:Name="versionsComboBox" Opacity="0.9" Margin="10"/>
+                </StackPanel>
+            </Border>
+
+            <Border Opacity="0.7" Background="Black" CornerRadius="15" Margin="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Border Opacity="0.7" Background="#FF8B9DAF" Grid.Column="3" Margin="10,0,10,0" CornerRadius="5" Height="48" VerticalAlignment="Center" Width="48">
+                        <Button BorderThickness="0" Opacity="0.9" Click="Button_Click_1" Margin="5,5,5,5" >
+                            <Button.Background>
+                                <ImageBrush ImageSource="/assets/GitHubLogo.png"/>
+                            </Button.Background>
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border Background="{TemplateBinding Background}"/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Border>
+                    <Button Content="Play" Background="#FFBAE600" Click="PlayClick" Margin="10,18,10,16" Grid.ColumnSpan="3" FontSize="24" FontWeight="Bold" >
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Border Opacity="0.7" Background="#FF8B9DAF" Grid.Column="4" Margin="10,0,24,0" CornerRadius="5" Height="48" VerticalAlignment="Center" Width="48">
+                        <Button BorderThickness="0" Opacity="0.9" Click="Button_Click_2" Margin="5,5,5,5" >
+                            <Button.Background>
+                                <ImageBrush ImageSource="/assets/Floader.png"/>
+                            </Button.Background>
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border Background="{TemplateBinding Background}"/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Border>
+                </Grid>
+            </Border>
+
+        </StackPanel>
+
+        <Border Background="Black" CornerRadius="15" Grid.ColumnSpan="3" Opacity="0.7" Grid.RowSpan="3" Visibility="Visible"/>
+
+        <Border Opacity="0.7" Background="Black" CornerRadius="15" DockPanel.Dock="Top" Margin="10" HorizontalAlignment="Left">
+            <StackPanel Margin="10">
+                <TextBlock x:Name="accountsTextBlock" FontSize="18" Foreground="#FFE4E4E4" Text="Login" Margin="10"/>
+                <TextBox x:Name="nickTextBox" Margin="10" FontSize="14" Background="#FFF3F3F3" MaxLength="16"/>
+                <CheckBox Content="use accounts?" Margin="10" Checked="CheckBox_Checked_1" Unchecked="CheckBox_Unchecked" Background="White" Foreground="#FFBDBDBD" FontSize="14"/>
+            </StackPanel>
         </Border>
-        <Border x:Name="MinecraftLoadingInfo" Background="Black" CornerRadius="15" Grid.ColumnSpan="3" Margin="10,10,10,50" Opacity="0.7" Visibility="Hidden">
-            <ProgressBar x:Name="MinecraftLoadingProgress" Grid.Column="2" HorizontalAlignment="Center" Height="30" Margin="0,21,0,0" Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Top" Width="805" Background="#FFC5C5C5"/>
-        </Border>
-        <Border Background="Black" CornerRadius="15" Grid.ColumnSpan="3" Margin="259,166,10,127" Opacity="0.7" Grid.RowSpan="3" Visibility="Hidden"/>
-        <Border Opacity="0.7" Background="Black" Margin="10,45,79,10" Grid.Row="2" CornerRadius="15">
-            <Grid Margin="0,0,156,0">
-                <Button Content="Settings" Background="#FFBAE600" Click="OpenSettings" Margin="10,78,-148,10" FontSize="22" FontWeight="Bold">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Content="Mods" Background="#FFBAE600" Click="ModsButtonClick" Margin="10,10,-148,83" FontSize="22" FontWeight="Bold">
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-            </Grid>
-        </Border>
-        <Border Opacity="0.7" Background="Black" Margin="10,166,79,171" CornerRadius="15" Grid.RowSpan="3">
-            <CheckBox Content="use accounts?" HorizontalAlignment="Left" Height="24" Margin="21,29,0,0" VerticalAlignment="Top" Width="155" RenderTransformOrigin="0.833,0.525" Checked="CheckBox_Checked_1" Unchecked="CheckBox_Unchecked" Background="White" Foreground="#FFBDBDBD" FontSize="14"/>
-        </Border>
-        <TextBlock x:Name="accountsTextBlock" HorizontalAlignment="Left" Margin="32,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Foreground="#FFE4E4E4" Text="Login" Grid.Row="1" RenderTransformOrigin="0.521,0.252"/>
-        <TextBox x:Name="nickTextBox"  HorizontalAlignment="Left" Height="23" Margin="32,51,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" FontSize="14" Background="#FFF3F3F3" MaxLength="16"/>
-        <Border Opacity="0.7" Background="Black" Margin="259,95,167,10" Grid.Row="2" CornerRadius="15" Grid.ColumnSpan="2">
-        </Border>
-        <ComboBox HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="183" x:Name="versionsComboBox" Opacity="0.9" Grid.ColumnSpan="2" Margin="285,148,0,0" Grid.Row="2"/>
-        <TextBlock x:Name="selectVersionTextBlock" HorizontalAlignment="Left" Margin="285,109,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18" Foreground="White" Text="Select version" Grid.ColumnSpan="2"/>
-    </Grid>
+
+    </DockPanel>
 </Page>
