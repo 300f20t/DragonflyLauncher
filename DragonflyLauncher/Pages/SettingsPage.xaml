@@ -14,7 +14,7 @@
     <DockPanel>
         
         <Border Opacity="0.7" Background="Black" CornerRadius="15" DockPanel.Dock="Right" Margin="10">
-            <Frame Background="AliceBlue">
+            <Frame x:Name="SettingsFrame" Background="AliceBlue" Margin="10">
                 
             </Frame>
         </Border>
