@@ -106,6 +106,13 @@
                 <StackPanel>
                     <TextBlock x:Name="selectVersionTextBlock" FontSize="18" Margin="10" Foreground="White" Text="Select version" />
                     <ComboBox  x:Name="versionsComboBox" Opacity="0.9" Margin="10"/>
+                    <Button Content="Update" Background="#FFBAE600" Click="ModsButtonClick" FontSize="18" FontWeight="Bold" Margin="10">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                 </StackPanel>
             </Border>
 

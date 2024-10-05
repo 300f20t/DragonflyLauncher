@@ -30,10 +30,13 @@ namespace DragonflyLauncher.Pages
     {
         public string Memory { get; set; }
         public string PlayerNickname { get; set; }
-
-        string _minecraftDirectory = @"%AppData%\.minecraft";
+        
+        static string _minecraftDirectory = "%AppData%\\.minecraft";
         string _selectedVersion = "1.20.1";
         string _launcherConfigsString;
+
+        MinecraftPath _minecraftPath = new(_minecraftDirectory);
+        MinecraftLauncher _minecraftLauncher = new();
 
         public HomePage()
         {
@@ -45,16 +48,12 @@ namespace DragonflyLauncher.Pages
         private async void GetVersions()
         {
 
-            var launcher = new MinecraftLauncher();
+            var _minecraftLauncher = new MinecraftLauncher();
             try
             {
-                var versions = await launcher.GetAllVersionsAsync();
+                var versions = await _minecraftLauncher.GetAllVersionsAsync();
                 foreach (var version in versions)
                 {
-                    Console.WriteLine("Name: " + version.Name);
-                    Console.WriteLine("Type: " + version.Type);
-                    Console.WriteLine("ReleaseTime: " + version.ReleaseTime);
-
                     versionsComboBox.Items.Add(version.Name);
                 }
             }
@@ -81,11 +80,11 @@ namespace DragonflyLauncher.Pages
             System.Net.ServicePointManager.DefaultConnectionLimit = 256;
 
             // initialize the launcher
-            var path = new MinecraftPath();
-            var launcher = new MinecraftLauncher(path);
+            
+            var _minecraftLauncher = new MinecraftLauncher(_minecraftPath);
 
             // add event handlers
-            launcher.FileProgressChanged += (sender, args) =>
+            _minecraftLauncher.FileProgressChanged += (sender, args) =>
             {
                 Console.WriteLine($"Name: {args.Name}");
                 Console.WriteLine($"Type: {args.EventType}");
@@ -93,22 +92,11 @@ namespace DragonflyLauncher.Pages
                 Console.WriteLine($"Progressed: {args.ProgressedTasks}");
             };
 
-            launcher.ByteProgressChanged += (sender, args) =>
-            {
-                Console.WriteLine($"{args.ProgressedBytes} bytes / {args.TotalBytes} bytes");
-                MinecraftLoadingProgress.Value = args.ProgressedBytes;
-            };
-
-            // get all versions
-            var versions = await launcher.GetAllVersionsAsync();
-            foreach (var v in versions)
-            {
-                Console.WriteLine(v.Name);
-            }
+            ProgressLoading();
 
             // install and launch the game
-            await launcher.InstallAsync(_selectedVersion);
-            var process = await launcher.BuildProcessAsync(_selectedVersion, new MLaunchOption
+            await _minecraftLauncher.InstallAsync(_selectedVersion);
+            var process = await _minecraftLauncher.BuildProcessAsync(_selectedVersion, new MLaunchOption
             {
                 Session = MSession.CreateOfflineSession(launcherConfigs.PlayerNickname),
                 MaximumRamMb = Int32.Parse(launcherConfigs.Memory),
@@ -128,6 +116,21 @@ namespace DragonflyLauncher.Pages
                     break;
                 }
             }
+        }
+
+        private async void ProgressLoading()
+        {
+            var path = new MinecraftPath();
+            var launcher = new MinecraftLauncher(path);
+
+            launcher.ByteProgressChanged += (sender, args) =>
+            {
+                Console.WriteLine($"{args.ProgressedBytes} bytes / {args.TotalBytes} bytes");
+                while (true)
+                {
+                    MinecraftLoadingProgress.Value = args.ProgressedBytes / args.TotalBytes * 100;
+                }
+            };
         }
 
         private void ModsButtonClick(object sender, RoutedEventArgs e)
