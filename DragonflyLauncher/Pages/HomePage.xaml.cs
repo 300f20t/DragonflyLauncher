@@ -1,41 +1,26 @@
-﻿using CmlLib.Core.Auth;
-using CmlLib.Core.ProcessBuilder;
-using CmlLib.Core;
-using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.IO;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using CmlLib.Core;
+using CmlLib.Core.Auth;
+using CmlLib.Core.ProcessBuilder;
 using CmlLib.Core.Version;
-using System.Text.Json;
+using DragonflyLauncher.Configurations;
 
 namespace DragonflyLauncher.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для HomePage.xaml
-    /// </summary>
     public partial class HomePage : Page
     {
-        public string Memory { get; set; }
-        public string PlayerNickname { get; set; }
-        
-        static string _minecraftDirectory = "%AppData%\\.minecraft";
-        string _selectedVersion = "1.20.1";
-        string _launcherConfigsString;
+        static string _minecraftDirectory = @"%AppData%\.minecraft";
+        static string _absoluteMinecraftDirectory = Environment.ExpandEnvironmentVariables(_minecraftDirectory);
 
-        MinecraftPath _minecraftPath = new(_minecraftDirectory);
+        string _selectedVersion = "1.20.1";
+
+        MinecraftPath _minecraftPath = new(_absoluteMinecraftDirectory);
         MinecraftLauncher _minecraftLauncher = new();
 
         public HomePage()
@@ -44,11 +29,8 @@ namespace DragonflyLauncher.Pages
             GetVersions();
         }
 
-
         private async void GetVersions()
         {
-
-            var _minecraftLauncher = new MinecraftLauncher();
             try
             {
                 var versions = await _minecraftLauncher.GetAllVersionsAsync();
@@ -57,88 +39,88 @@ namespace DragonflyLauncher.Pages
                     versionsComboBox.Items.Add(version.Name);
                 }
             }
-            catch { MessageBox.Show("No internet connection!"); }
+            catch
+            {
+                MessageBox.Show("No internet connection!");
+            }
         }
 
         private void PlayClick(object sender, RoutedEventArgs e)
         {
-                RunMinecraft();
+            RunMinecraft();
         }
 
         private async void RunMinecraft()
         {
-            if (!File.Exists("LauncherConfigs.json"))
-            {
-                MessageBox.Show("Configuration file 'LauncherConfigs.json' is missing!");
-                return;
-            }
+            // Загружаем конфигурацию с помощью нового класса
+            LauncherConfig? launcherConfigs = await LauncherConfig.LoadConfigurationAsync();
+            if (launcherConfigs == null) return;
 
-            _launcherConfigsString = File.ReadAllText("LauncherConfigs.json");
-            HomePage? launcherConfigs = JsonSerializer.Deserialize<HomePage>(_launcherConfigsString);
-
-            if (launcherConfigs == null)
-            {
-                MessageBox.Show("Failed to read the configuration file. Check the file format.");
-                return;
-            }
-
+            // Установка видимости элемента интерфейса
             MinecraftLoadingInfo.Visibility = Visibility.Visible;
 
-            if (versionsComboBox.Text != "") _selectedVersion = versionsComboBox.Text;
+            // Проверка и установка выбранной версии Minecraft
+            if (!string.IsNullOrEmpty(versionsComboBox.Text))
+            {
+                _selectedVersion = versionsComboBox.Text;
+            }
 
+            // Конфигурация максимального количества соединений
             System.Net.ServicePointManager.DefaultConnectionLimit = 256;
 
-            // initialize the launcher
-            
-            var _minecraftLauncher = new MinecraftLauncher(_minecraftPath);
+            // Инициализация лаунчера Minecraft
+            var minecraftLauncher = new MinecraftLauncher(_minecraftPath);
 
-            // add event handlers
-            _minecraftLauncher.FileProgressChanged += (sender, args) =>
+            // Обработка прогресса загрузки файлов
+            minecraftLauncher.FileProgressChanged += (sender, args) =>
             {
-                Console.WriteLine($"Name: {args.Name}");
-                Console.WriteLine($"Type: {args.EventType}");
-                Console.WriteLine($"Total: {args.TotalTasks}");
-                Console.WriteLine($"Progressed: {args.ProgressedTasks}");
+                Console.WriteLine($"File: {args.Name}, Type: {args.EventType}, Progress: {args.ProgressedTasks}/{args.TotalTasks}");
             };
 
-            ProgressLoading();
-
-            // install and launch the game
-            await _minecraftLauncher.InstallAsync(_selectedVersion);
-            var process = await _minecraftLauncher.BuildProcessAsync(_selectedVersion, new MLaunchOption
+            try
             {
-                Session = MSession.CreateOfflineSession(launcherConfigs.PlayerNickname),
-                MaximumRamMb = Int32.Parse(launcherConfigs.Memory),
-            });
-            process.Start();
-
-            MinecraftLoadingInfo.Visibility = Visibility.Hidden;
-
-            MainWindow.GetWindow(this).Hide();
-
-            while (true)
-            {
-                Thread.Sleep(10);
-                if (process.HasExited)
+                // Установка и запуск игры
+                await minecraftLauncher.InstallAsync(_selectedVersion);
+                var launchOptions = new MLaunchOption
                 {
-                    MainWindow.GetWindow(this).Show();
-                    break;
-                }
+                    Session = MSession.CreateOfflineSession(launcherConfigs.PlayerNickname),
+                    MaximumRamMb = int.Parse(launcherConfigs.Memory)
+                };
+
+                // Создание процесса Minecraft
+                var process = await minecraftLauncher.BuildProcessAsync(_selectedVersion, launchOptions);
+                process.Start();
+
+                // Скрытие основного окна на время работы Minecraft
+                MinecraftLoadingInfo.Visibility = Visibility.Hidden;
+                var mainWindow = MainWindow.GetWindow(this);
+                mainWindow.Hide();
+
+                // Ожидание завершения процесса игры асинхронно
+                await Task.Run(() => process.WaitForExit());
+
+                // Возврат окна после закрытия Minecraft
+                mainWindow.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error launching Minecraft: {ex.Message}");
+            }
+            finally
+            {
+                // Скрытие индикатора загрузки в случае ошибки или завершения работы
+                MinecraftLoadingInfo.Visibility = Visibility.Hidden;
             }
         }
 
         private async void ProgressLoading()
         {
-            var path = new MinecraftPath();
-            var launcher = new MinecraftLauncher(path);
-
-            launcher.ByteProgressChanged += (sender, args) =>
+            _minecraftLauncher.ByteProgressChanged += (sender, args) =>
             {
-                Console.WriteLine($"{args.ProgressedBytes} bytes / {args.TotalBytes} bytes");
-                while (true)
+                Dispatcher.Invoke(() =>
                 {
-                    MinecraftLoadingProgress.Value = args.ProgressedBytes / args.TotalBytes * 100;
-                }
+                    MinecraftLoadingProgress.Value = (double)args.ProgressedBytes / args.TotalBytes * 100;
+                });
             };
         }
 
@@ -160,8 +142,7 @@ namespace DragonflyLauncher.Pages
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            string absoluteMineDir = Environment.ExpandEnvironmentVariables(_minecraftDirectory);
-            Process.Start("explorer.exe", @$"{absoluteMineDir}");
+            Process.Start("explorer.exe", @$"{_absoluteMinecraftDirectory}");
         }
 
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
