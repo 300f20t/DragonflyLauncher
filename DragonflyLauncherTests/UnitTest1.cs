@@ -8,7 +8,7 @@ namespace DragonflyLauncherTests
         [TestMethod]
         public void TestMethod1()
         {
-
+            // Здесь будут тесты, когда-нибудь...
         }
     }
 }
