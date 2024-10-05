@@ -67,11 +67,20 @@ namespace DragonflyLauncher.Pages
 
         private async void RunMinecraft()
         {
-            _launcherConfigsString = File.ReadAllText(@"LauncherConfigs.json");
+            if (!File.Exists("LauncherConfigs.json"))
+            {
+                MessageBox.Show("Configuration file 'LauncherConfigs.json' is missing!");
+                return;
+            }
 
+            _launcherConfigsString = File.ReadAllText("LauncherConfigs.json");
             HomePage? launcherConfigs = JsonSerializer.Deserialize<HomePage>(_launcherConfigsString);
 
-            MessageBox.Show(launcherConfigs.Memory.ToString());
+            if (launcherConfigs == null)
+            {
+                MessageBox.Show("Failed to read the configuration file. Check the file format.");
+                return;
+            }
 
             MinecraftLoadingInfo.Visibility = Visibility.Visible;
 
