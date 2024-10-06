@@ -143,7 +143,7 @@ namespace DragonflyLauncher.Pages
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://github.com/") { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo("https://github.com/300f20t/DragonflyLauncher") { UseShellExecute = true });
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
