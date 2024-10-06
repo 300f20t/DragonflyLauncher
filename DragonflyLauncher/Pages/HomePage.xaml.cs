@@ -18,7 +18,7 @@ namespace DragonflyLauncher.Pages
         static string _minecraftDirectory = @"%AppData%\.minecraft";
         static string _absoluteMinecraftDirectory = Environment.ExpandEnvironmentVariables(_minecraftDirectory);
 
-        string _selectedVersion = "1.20.1";
+        string _selectedVersion = "1.20.1";  // Значение по умолчанию
 
         MinecraftPath _minecraftPath = new(_absoluteMinecraftDirectory);
         MinecraftLauncher _minecraftLauncher = new();
@@ -38,6 +38,7 @@ namespace DragonflyLauncher.Pages
                 {
                     versionsComboBox.Items.Add(version.Name);
                 }
+                versionsComboBox.SelectedIndex = 0;
             }
             catch
             {
@@ -52,55 +53,24 @@ namespace DragonflyLauncher.Pages
 
         private async void RunMinecraft()
         {
-            // Загружаем конфигурацию с помощью нового класса
-            LauncherConfig? launcherConfigs = await LauncherConfig.LoadConfigurationAsync();
+            LauncherConfig? launcherConfigs = await LoadAndValidateConfigurationsAsync();
             if (launcherConfigs == null) return;
 
             // Установка видимости элемента интерфейса
-            MinecraftLoadingInfo.Visibility = Visibility.Visible;
+            ToggleLoadingIndicator(true);
 
-            // Проверка и установка выбранной версии Minecraft
-            if (!string.IsNullOrEmpty(versionsComboBox.Text))
+            // Установка выбранной версии, если пользователь выбрал из ComboBox
+            if (versionsComboBox.SelectedItem != null)
             {
-                _selectedVersion = versionsComboBox.Text;
+                _selectedVersion = versionsComboBox.SelectedItem.ToString();
             }
-
-            // Конфигурация максимального количества соединений
-            System.Net.ServicePointManager.DefaultConnectionLimit = 256;
-
-            // Инициализация лаунчера Minecraft
-            var minecraftLauncher = new MinecraftLauncher(_minecraftPath);
-
-            // Обработка прогресса загрузки файлов
-            minecraftLauncher.FileProgressChanged += (sender, args) =>
-            {
-                Console.WriteLine($"File: {args.Name}, Type: {args.EventType}, Progress: {args.ProgressedTasks}/{args.TotalTasks}");
-            };
 
             try
             {
-                // Установка и запуск игры
-                await minecraftLauncher.InstallAsync(_selectedVersion);
-                var launchOptions = new MLaunchOption
-                {
-                    Session = MSession.CreateOfflineSession(launcherConfigs.PlayerNickname),
-                    MaximumRamMb = int.Parse(launcherConfigs.Memory)
-                };
+                // Вызов метода для отслеживания прогресса загрузки перед установкой
+                ProgressLoading();
 
-                // Создание процесса Minecraft
-                var process = await minecraftLauncher.BuildProcessAsync(_selectedVersion, launchOptions);
-                process.Start();
-
-                // Скрытие основного окна на время работы Minecraft
-                MinecraftLoadingInfo.Visibility = Visibility.Hidden;
-                var mainWindow = MainWindow.GetWindow(this);
-                mainWindow.Hide();
-
-                // Ожидание завершения процесса игры асинхронно
-                await Task.Run(() => process.WaitForExit());
-
-                // Возврат окна после закрытия Minecraft
-                mainWindow.Show();
+                await LaunchMinecraft(launcherConfigs);
             }
             catch (Exception ex)
             {
@@ -108,17 +78,53 @@ namespace DragonflyLauncher.Pages
             }
             finally
             {
-                // Скрытие индикатора загрузки в случае ошибки или завершения работы
-                MinecraftLoadingInfo.Visibility = Visibility.Hidden;
+                ToggleLoadingIndicator(false);
             }
         }
 
-        private async void ProgressLoading()
+        private async Task<LauncherConfig?> LoadAndValidateConfigurationsAsync()
+        {
+            LauncherConfig? launcherConfigs = await LauncherConfig.LoadConfigurationAsync();
+            if (launcherConfigs == null || string.IsNullOrEmpty(launcherConfigs.PlayerNickname) || string.IsNullOrEmpty(launcherConfigs.Memory))
+            {
+                MessageBox.Show("Configuration is missing or incomplete.");
+                return null;
+            }
+            return launcherConfigs;
+        }
+
+        private async Task LaunchMinecraft(LauncherConfig launcherConfigs)
+        {
+            // Установка и запуск игры
+            await _minecraftLauncher.InstallAsync(_selectedVersion);
+            var launchOptions = new MLaunchOption
+            {
+                Session = MSession.CreateOfflineSession(launcherConfigs.PlayerNickname),
+                MaximumRamMb = int.Parse(launcherConfigs.Memory)
+            };
+
+            // Создание процесса Minecraft
+            var process = await _minecraftLauncher.BuildProcessAsync(_selectedVersion, launchOptions);
+            process.Start();
+
+            var mainWindow = MainWindow.GetWindow(this);
+            mainWindow.Hide();
+            await Task.Run(() => process.WaitForExit());
+            mainWindow.Show();
+        }
+
+        private void ToggleLoadingIndicator(bool isLoading)
+        {
+            MinecraftLoadingInfo.Visibility = isLoading ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        private void ProgressLoading()
         {
             _minecraftLauncher.ByteProgressChanged += (sender, args) =>
             {
                 Dispatcher.Invoke(() =>
                 {
+                    // Обновление значения ProgressBar
                     MinecraftLoadingProgress.Value = (double)args.ProgressedBytes / args.TotalBytes * 100;
                 });
             };

@@ -36,6 +36,7 @@
     <PackageReference Include="CmlLib.Core" Version="4.0.2" />
     <PackageReference Include="CmlLib.Core.Auth.Microsoft" Version="3.2.0" />
     <PackageReference Include="CmlLib.Core.Installer.Forge" Version="1.0.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -35,5 +35,20 @@ namespace DragonflyLauncher.Pages
         {
             NavigationService.Navigate(new HomePage());
         }
+
+        private void StartupSettingsButton(object sender, RoutedEventArgs e)
+        {
+            SettingsFrame.Content = new StartupSettingsPage();
+        }
+
+        private void LauncherSettingsButton(object sender, RoutedEventArgs e)
+        {
+            SettingsFrame.Content = new LauncherSettingsPage();
+        }
+
+        private void ModBuilderSettingsButton(object sender, RoutedEventArgs e)
+        {
+            SettingsFrame.Content = new ModBuilderSettingsPage();
+        }
     }
 }
