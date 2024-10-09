@@ -11,13 +11,15 @@
 
     <DockPanel>
         <Border Opacity="0.7" Background="Black" CornerRadius="15" Margin="10" VerticalAlignment="Top">
-            <Grid Margin="10" VerticalAlignment="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="Memory" Foreground="White" Margin="10" FontSize="20"/>
+                <Grid Margin="10" VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <Slider x:Name="MemorySlider" 
+                    <Slider x:Name="MemorySlider" 
                     Grid.Column="0" 
                     ValueChanged="Slider_ValueChanged" 
                     SmallChange="512" 
@@ -28,14 +30,15 @@
                     Margin="10"
                         />
 
-                <TextBox x:Name="MemoryTextBox" 
+                    <TextBox x:Name="MemoryTextBox" 
                      Grid.Column="1" 
                      Width="50" 
                      Height="20" 
                      TextChanged="MemoryTextBox_TextChanged" 
                      VerticalAlignment="Center"
                      Margin="10"/>
-            </Grid>
+                </Grid>
+            </StackPanel>
         </Border>
     </DockPanel>
 
