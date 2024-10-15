@@ -24,7 +24,7 @@ namespace DragonflyLauncher.Pages
         public SettingsPage()
         {
             InitializeComponent();
-            SettingsFrame.Content = new LauncherSettingsPage();
+            SettingsFrame.Content = new StartupSettingsPage();
         }
 
         private void SaveButton(object sender, RoutedEventArgs e)
