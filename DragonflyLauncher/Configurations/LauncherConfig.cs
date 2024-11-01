@@ -43,5 +43,21 @@ namespace DragonflyLauncher.Configurations
                 return null;
             }
         }
+
+        /// <summary>
+        /// Асинхронно сохраняет конфигурацию в файл.
+        /// </summary>
+        public static async Task SaveConfigurationAsync(LauncherConfig config)
+        {
+            try
+            {
+                string configData = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
+                await File.WriteAllTextAsync(_configFile, configData);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error writing configuration file: {ex.Message}");
+            }
+        }
     }
 }

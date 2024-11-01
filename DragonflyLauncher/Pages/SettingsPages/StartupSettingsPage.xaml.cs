@@ -2,22 +2,26 @@
 using System.Management;
 using System.Windows;
 using System.Windows.Controls;
+using System.Threading.Tasks;
+using DragonflyLauncher.Configurations;
 
 namespace DragonflyLauncher.Pages.SettingsPages
 {
     public partial class StartupSettingsPage : Page
     {
         public ulong TotalMemoryInMb { get; private set; }
+        private LauncherConfig _config;
+
+        public int SelectedMemoryValue { get; private set; }
 
         public StartupSettingsPage()
         {
             InitializeComponent();
             TotalMemoryInMb = GetTotalPhysicalMemoryInMb();
-            // Устанавливаем максимальное значение слайдера
             MemorySlider.Maximum = TotalMemoryInMb;
-            // Устанавливаем начальное значение
-            MemorySlider.Value = 1024; // Например, 1 GB
-            MemoryTextBox.Text = "1024"; // Начальное значение
+            MemorySlider.Value = 1024;
+            MemoryTextBox.Text = "1024";
+            LoadConfigurationAsync();
         }
 
         private ulong GetTotalPhysicalMemoryInMb()
@@ -33,24 +37,35 @@ namespace DragonflyLauncher.Pages.SettingsPages
             return totalMemoryMb;
         }
 
+        private async Task LoadConfigurationAsync()
+        {
+            _config = await LauncherConfig.LoadConfigurationAsync() ?? new LauncherConfig();
+            if (int.TryParse(_config.Memory, out int memoryValue) && memoryValue <= (int)TotalMemoryInMb)
+            {
+                MemorySlider.Value = memoryValue;
+                MemoryTextBox.Text = memoryValue.ToString();
+                SelectedMemoryValue = memoryValue;
+            }
+        }
+
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            // Проверка на null перед использованием
             if (MemoryTextBox != null)
             {
-                MemoryTextBox.Text = ((int)e.NewValue).ToString();
+                int memoryValue = (int)e.NewValue;
+                MemoryTextBox.Text = memoryValue.ToString();
+                SelectedMemoryValue = memoryValue;
             }
         }
 
         private void MemoryTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // Обработка изменения текста в TextBox
             if (int.TryParse(MemoryTextBox.Text, out int newValue))
             {
-                // Приведение TotalMemoryInMb к int и проверка
                 if (newValue >= 0 && newValue <= (int)TotalMemoryInMb)
                 {
                     MemorySlider.Value = newValue;
+                    SelectedMemoryValue = newValue;
                 }
                 else
                 {
