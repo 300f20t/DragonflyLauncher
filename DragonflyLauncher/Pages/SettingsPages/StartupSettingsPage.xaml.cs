@@ -69,7 +69,7 @@ namespace DragonflyLauncher.Pages.SettingsPages
                 }
                 else
                 {
-                    MessageBox.Show($"Введите значение от 0 до {(int)TotalMemoryInMb} МБ.");
+                    MessageBox.Show($"Enter a value from 0 to {(int)TotalMemoryInMb} MB.");
                 }
             }
         }

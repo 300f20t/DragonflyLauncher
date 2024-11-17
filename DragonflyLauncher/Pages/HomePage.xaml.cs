@@ -137,8 +137,7 @@ namespace DragonflyLauncher.Pages
 
         private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
         {
-            nickTextBox.Visibility = Visibility.Hidden;
-            accountsTextBlock.Text = "Login with";
+            
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

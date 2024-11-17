@@ -31,7 +31,7 @@ namespace DragonflyLauncher.Pages
                 // Сохранение обновленной конфигурации
                 await LauncherConfig.SaveConfigurationAsync(config);
 
-                MessageBox.Show("Настройки сохранены.");
+                MessageBox.Show("Settings saved.");
             }
         }
 
