@@ -9,7 +9,8 @@
       Title="StartupSettingsPage">
 
 
-    <DockPanel>
+    <StackPanel>
+
         <Border Opacity="0.7" Background="Black" CornerRadius="15" Margin="10" VerticalAlignment="Top">
             <StackPanel>
                 <TextBlock Text="Memory" Foreground="White" Margin="10" FontSize="20"/>
@@ -40,7 +41,7 @@
                 </Grid>
             </StackPanel>
         </Border>
-    </DockPanel>
+    </StackPanel>
 
 
 

@@ -11,7 +11,7 @@
     <DockPanel>
         <Border Opacity="0.7" Background="Black" CornerRadius="15" Margin="10" VerticalAlignment="Top">
             <StackPanel>
-                <TextBlock Text="Mod Builder" Foreground="White" Margin="10" FontSize="20"/>
+                <TextBlock Text="Launcher" Foreground="White" Margin="10" FontSize="20"/>
 
             </StackPanel>
         </Border>
