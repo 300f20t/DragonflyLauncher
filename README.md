@@ -26,7 +26,7 @@ DragonflyLauncher is an open-source project created by independent developers an
 
 ## Installation
 
-1. Download the latest release from the [Releases page](https://github.com/your-repo/DragonflyLauncher/releases).
+1. Download the latest release from the [Releases page](https://github.com/300f20t/DragonflyLauncher/releases).
 2. Extract the downloaded archive to your preferred directory.
 3. Launch `DragonflyLauncher.exe`.
 4. Configure the launcher with your Minecraft credentials and game settings.
