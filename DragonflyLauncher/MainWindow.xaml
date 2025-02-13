@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DragonflyLauncher"
         mc:Ignorable="d"
-        Title="Dragonfly Launcher V0.0.2" Height="650" Width="1000" Icon="/assets/Dragonfly.png">
+        Title="Dragonfly Launcher V0.0.3" Height="650" Width="1000" Icon="/assets/Dragonfly.png">
     
     <Frame Name="MainFrame" Background="White" NavigationUIVisibility="Hidden"/>
 </Window>

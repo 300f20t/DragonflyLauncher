@@ -12,7 +12,6 @@
   <ItemGroup>
     <None Remove="Assets\Background.png" />
     <None Remove="Assets\Dragonfly.png" />
-    <None Remove="Assets\Floader.png" />
     <None Remove="Assets\GitHubLogo.png" />
   </ItemGroup>
 
@@ -23,7 +22,7 @@
     <Content Include="Assets\Dragonfly.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Floader.png">
+    <Content Include="Assets\Folder.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\GitHubLogo.png">
@@ -33,17 +32,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CmlLib.Core" Version="4.0.3" />
-    <PackageReference Include="CmlLib.Core.Auth.Microsoft" Version="3.2.0" />
-    <PackageReference Include="CmlLib.Core.Installer.Forge" Version="1.0.0" />
-    <PackageReference Include="System.Management" Version="9.0.0" />
-    <PackageReference Include="System.Text.Json" Version="9.0.0" />
+    <PackageReference Include="CmlLib.Core" Version="4.0.4" />
+    <PackageReference Include="CmlLib.Core.Auth.Microsoft" Version="3.2.2" />
+    <PackageReference Include="CmlLib.Core.Installer.Forge" Version="1.0.1" />
+    <PackageReference Include="System.Management" Version="9.0.2" />
+    <PackageReference Include="System.Text.Json" Version="9.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Configurations\LauncherConfigs.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ModBuilder\" />
   </ItemGroup>
 
 </Project>
